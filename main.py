@@ -1,4 +1,4 @@
-# Flappy Tux
+# Code from https://www.pygame.org/docs/
 
 import pygame
 
