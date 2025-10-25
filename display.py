@@ -1,4 +1,4 @@
 import pygame
 
-screen_length = 1920
-screen_width = 1080
+screen_length = 1900
+screen_width = 1000

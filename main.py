@@ -6,7 +6,7 @@ from background import *
 
 # pygame setup
 pygame.init()
-screen = pygame.display.set_mode((screen_length, screen_width), pygame.FULLSCREEN)
+screen = pygame.display.set_mode((screen_length, screen_width))
 clock = pygame.time.Clock()
 title = pygame.display.set_caption("Debian")
 running = True
@@ -18,7 +18,6 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
     # fill the screen with Monument Valley
     screen.fill((0, 0, 0))
     screen.blit(valley, (0, 0))
