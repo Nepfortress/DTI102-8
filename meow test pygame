@@ -1,0 +1,33 @@
+import pygame
+
+pygame.init()
+
+pygame.display.set_caption("pygame test")
+
+white = (255,255,255)
+blue = (0,0,255)
+green = (0,255,0)
+red = (255,0,0)
+black = (0,0,0)
+
+screen = pygame.display.set_mode((600,600))
+screen.fill(white)
+pygame.draw.line(screen,blue,(0,500),(600,500),5)
+pygame.draw.rect(screen,black,(200,200,200,60))
+pygame.draw.rect(screen,red,(0,500,600,100))
+
+sys_font = pygame.font.SysFont("menlo",55)
+sys_fontplay = pygame.font.SysFont("menlo",40)
+message_text = sys_font.render("Magic type",True,green)
+message_play = sys_font.render("Play",True,green)
+screen.blit(message_text,(150,20))
+screen.blit(message_play,(240,200))
+running = True
+
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running=False
+            
+    pygame.display.update()
+pygame.quit()  
