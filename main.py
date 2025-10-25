@@ -18,13 +18,6 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    pygame.draw.circle(screen, "red", player_position, 30)
-
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_SPACE]:
-        player_position.y -= 300 * dt
-
-
     # flip() the display to put your work on screen
     pygame.display.flip()
 
