@@ -1,3 +1,5 @@
+import pygame
+
 score = 0
 total_score = 0
 health = 100
