@@ -3,7 +3,8 @@ import pygame
 score = 0
 total_score = 0
 health = 100
-word_amount = 5
+word_amount = 3 # Falling word every 10 seconds or words/10s
+level = 1 # Start at level 1
 
 def status(health):
     if (health == 0):
@@ -17,17 +18,18 @@ def player_score(score):
     return (total_score)
 
 def difficulty(total_score):
-    if (total_score >= 25):
-        return (word_amount + 2)
-    elif (total_score >= 50):
-        return (word_amount + 2)
-    elif (total_score >= 75):
-        return (word_amount + 2)
-    elif (total_score >= 100):
-        return (word_amount + 2)
+    global level, word_amount
+    level = level + total_score // 25
+    for i in range(level):
+        word_amount += 2
+    return (word_amount)
 
-for i in range (5):
-    print(player_score(5))
-    print(player_score(10))
-print(status(100)) # The falling word hasn't hit the floor yet!
-print(status(0)) # The falling word has hit the floor!
+player_score(75)
+player_score(1)
+player_score(0)
+difficulty(total_score)
+print("Total Player Score: ", total_score)
+print("Game Level: ", level)
+print("Falling Word Amount: ", word_amount)
+print("status: ", status(100)) # The falling word hasn't hit the floor yet!
+print("Status: ", status(0)) # The falling word has hit the floor!
