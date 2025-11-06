@@ -3,7 +3,7 @@ import sys
 import random #ใช้สุ่มตำแหน่งดาวหรือเอฟเฟกต์
 pygame.init()
 pygame.display.set_caption("Magic Type")
-screen = pygame.display.set_mode((1920, 1080))
+screen = pygame.display.set_mode((800, 600))
 clock = pygame.time.Clock() #ใช้ควบคุมความเร็วเฟรมของเกม
 font = pygame.font.SysFont(None, 80)
 small_font = pygame.font.SysFont(None, 50)
@@ -15,8 +15,8 @@ buttons = [("Start", 320), ("Setting", 420), ("Quit", 520)]
 #สุ่มจุดแสงเล็กๆ สำหรับพื้นหลัง
 stars = []
 for i in range(50):
-    x = random.randint(0, 1920)
-    y = random.randint(0, 1080)
+    x = random.randint(0, 800)
+    y = random.randint(0, 600)
     r = random.randint(1, 3) #จำนวนเต็ม
     s = random.uniform(0.5, 1.5) #ทศนิยม ความเร็ว
     stars.append([x, y, r, s])
@@ -45,8 +45,8 @@ def draw_colorful_background():
     color2 = (r, g, b)                 # สีสดสำหรับด้านล่าง
 
     # วาดพื้นหลังแบบไล่สี
-    for y in range(1080):
-        ratio = y / 1080
+    for y in range(600):
+        ratio = y / 600
         red = int(color1[0] * (1 - ratio) + color2[0] * ratio)
         green = int(color1[1] * (1 - ratio) + color2[1] * ratio)
         blue = int(color1[2] * (1 - ratio) + color2[2] * ratio)
