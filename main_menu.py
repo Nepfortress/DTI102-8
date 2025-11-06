@@ -12,20 +12,20 @@ small_font = pygame.font.SysFont(None, 50)
 state = "menu"
 buttons = [("Start", 320), ("Setting", 420), ("Quit", 520)]
  
-# สุ่มจุดแสงเล็ก ๆ สำหรับพื้นหลัง
+#สุ่มจุดแสงเล็กๆ สำหรับพื้นหลัง
 stars = []
 for i in range(50):
-    x = random.randint(0, 1280)
-    y = random.randint(0, 720)
-    r = random.randint(1, 3)
-    s = random.uniform(0.5, 1.5) #ความเร็วเคลื่อนที่
+    x = random.randint(0, 1920)
+    y = random.randint(0, 1080)
+    r = random.randint(1, 3) #จำนวนเต็ม
+    s = random.uniform(0.5, 1.5) #ทศนิยม ความเร็ว
     stars.append([x, y, r, s])
 
-# สีพื้นหลังเริ่มต้น หมุนเฉดสีพื้นหลังเพื่อให้ค่อยๆเปลี่ยนสี
+#สีพื้นหลังเริ่มต้น หมุนเฉดสีพื้นหลังเพื่อให้ค่อยๆเปลี่ยนสี
 color_shift = 0
 def draw_colorful_background():
     global color_shift
-    color_shift = (color_shift + 1) % 765  # หมุนค่าระหว่าง 0-765
+    color_shift = (color_shift + 1) % 765  #หมุนค่าระหว่าง 0-765
 
     # ไล่สีแบบไปกลับ: จากแดง → เขียว → น้ำเงิน → กลับมาแดง
     if color_shift < 255:
@@ -45,8 +45,8 @@ def draw_colorful_background():
     color2 = (r, g, b)                 # สีสดสำหรับด้านล่าง
 
     # วาดพื้นหลังแบบไล่สี
-    for y in range(720):
-        ratio = y / 720
+    for y in range(1080):
+        ratio = y / 1080
         red = int(color1[0] * (1 - ratio) + color2[0] * ratio)
         green = int(color1[1] * (1 - ratio) + color2[1] * ratio)
         blue = int(color1[2] * (1 - ratio) + color2[2] * ratio)
@@ -56,9 +56,9 @@ def draw_colorful_background():
     for star in stars:
         pygame.draw.circle(screen, (255, 255, 255), (int(star[0]), int(star[1])), star[2])
         star[1] += star[3]
-        if star[1] > 720:
+        if star[1] > 1080:
             star[1] = 0
-            star[0] = random.randint(0, 1280)
+            star[0] = random.randint(0, 1920)
 def draw_menu(): #แสดงหน้าเมนูหลักของเกม
     draw_colorful_background()  
     title = font.render("Magic Type", True, (255, 255, 255))
