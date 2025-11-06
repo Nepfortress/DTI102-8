@@ -88,7 +88,7 @@ def draw_menu(): #แสดงหน้าเมนูหลักของเ�
             elif text == "Quit": pygame.quit(); sys.exit()
     return "menu"
 
-#ล้างจอเป็นสีดำ แล้วแสดงหัวข้อกลางหน้าจอ
+#จอเป็นสีดำ แล้วแสดงหัวข้อกลางหน้าจอ
 def draw_page(label):
     screen.fill((10, 10, 10))
     head = font.render(label, True, (255, 255, 255))
