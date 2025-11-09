@@ -1,5 +1,4 @@
  # Magic Type
 
-How to play
-
-There are falling words, type those word correctly before falling words touch the ground, the game will be harder as player progresses.
+วิธีเล่น
+จะมีคำตกลงมา ให้ผู้เล่นพิมพ์คำนั้นให้ถูกต้อง ถ้าคำที่ตกลงมาแตะพื้นจะเกมโอเวอร์ทันที่
