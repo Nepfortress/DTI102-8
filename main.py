@@ -1,28 +1,21 @@
-# Magic Type
-
 import pygame
 import main_menu
-import score
-import character
 import background
 
-# pygame setup
 pygame.init()
-screen = pygame.display.set_mode((1920, 1080)) # Game resolution 1920 pixel times 1080 pixels
+screen = pygame.display.set_mode((1280, 720)) # ความละเอียดของเกม 1280x720
 clock = pygame.time.Clock()
-title = pygame.display.set_caption("Magic Type")
+title = pygame.display.set_caption('Magic Type') # 
 running = True
 dt = 0
 
 while running:
     # pygame.QUIT event means the user clicked X to close your window
+    # ปิดหน้าตัวเกม
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-    # fill background with a fhd picture 
-    screen.fill((0, 0, 0))
-    screen.blit(background.softmountain, (0, 0))
 
     # flip() the display to put your work on screen
     pygame.display.flip()
