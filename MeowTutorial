@@ -44,7 +44,7 @@ circles = []
 def create_circle(color):
     return {
         "x": random.randint(100, WIDTH - 100),
-        "y": random.randint(-100, -50),
+        "y": 0,
         "color": color,
         "letter": chr(random.randint(65, 90)),
         "radius": 35
