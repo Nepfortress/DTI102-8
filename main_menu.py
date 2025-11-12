@@ -74,7 +74,7 @@ def draw_menu(): #แสดงหน้าเมนูหลักของเ�
 def draw_page(label):
     screen.fill((10, 10, 10))   #พื้นหลังของหน้าจอให้เป็นสีดำเข้ม
     head = font.render(label, True, (255, 255, 255))  #สร้างข้อความชื่อหน้าเกม จากตัวแปร label
-    screen.blit(head, (530, 200))  #ข้อความแสดงบนหน้าจอ
+    screen.blit(head, (530, 150))  #ข้อความแสดงบนหน้าจอ
     
     mouse = pygame.mouse.get_pos()
     click = False
