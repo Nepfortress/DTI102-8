@@ -1,0 +1,193 @@
+import pygame
+import random
+import sys
+import time
+import math
+
+pygame.init()
+
+# ------------------ Screen setup ------------------
+WIDTH = 1280
+HEIGHT = 720
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Magic Type - Tutorial")
+
+font = pygame.font.Font(None, 50)
+
+# ------------------ Colors ------------------
+WHITE = (255, 255, 255)
+GRAY = (200, 200, 200)
+BLACK = (0, 0, 0)
+GREEN = (0, 255, 0)
+BLUE = (0, 150, 255)
+BG_COLOR = (30, 30, 60)
+
+# ------------------ Images ------------------
+background = pygame.image.load("Project102/softmountain.png").convert()
+background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+
+character = pygame.image.load("Project102/boy.png").convert_alpha()
+character = pygame.transform.scale(character, (150, 150))
+char_rect = character.get_rect(midbottom=(WIDTH // 2, HEIGHT - 40))
+
+# ------------------ Game variables ------------------
+normal_speed = 2
+fall_speed = normal_speed
+slow_mode = False
+slow_start_time = 0
+slow_duration = 5
+
+circles = []
+clock = pygame.time.Clock()
+
+# ------------------ Tutorial text ------------------
+tutorial_texts = [
+    "Welcome to Magic Type!",
+    "Letters will fall from the sky.",
+    "Type the matching letter to destroy the circle.",
+    "Now, try typing this normal WHITE circle!",
+    "Nice! The WHITE circle is normal.",
+    "If it's GREEN - all letters will fall slower.",
+    "Try typing the GREEN circle now!",
+    "Good! Now if it's BLUE - all circles disappear!",
+    "Try typing the BLUE circle now!",
+    "Excellent! Tutorial complete!"
+]
+
+text_index = 0
+typed_normal = False
+typed_green = False
+typed_blue = False
+
+# ------------------ Function: Create circle ------------------
+def create_circle(x, y, color, letter):
+    return {"x": x, "y": y, "color": color, "letter": letter, "radius": 35}
+
+# ------------------ Main loop ------------------
+running = True
+time_counter = 0
+
+while running:
+    current_time = time.time()
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+        if event.type == pygame.KEYDOWN:
+            key_pressed = event.unicode.upper()
+
+            # SPACEBAR → กดเพื่อไปข้อความถัดไป (ทุกขั้นตอน)
+            if event.key == pygame.K_SPACE:
+                # ไปขั้นต่อไปได้ ถ้าไม่มีลูกบอลให้พิมพ์ (หรือพิมพ์ถูกแล้ว)
+                if text_index == 3 and not typed_normal:
+                    pass  # ยังห้ามข้าม ต้องพิมพ์ลูกบอลก่อน
+                elif text_index == 6 and not typed_green:
+                    pass
+                elif text_index == 8 and not typed_blue:
+                    pass
+                elif text_index < len(tutorial_texts) - 1:
+                    text_index += 1
+                else:
+                    running = False
+
+            # ENTER = ทางลัดออก (ไม่จำเป็นต้องใช้)
+            if event.key == pygame.K_RETURN and text_index == len(tutorial_texts) - 1:
+                running = False
+
+            # พิมพ์ตัวอักษรเพื่อทำลายลูกบอล
+            for circle in circles[:]:
+                if key_pressed == circle["letter"]:
+                    if circle["color"] == WHITE:
+                        typed_normal = True
+                        circles.remove(circle)
+                    elif circle["color"] == GREEN:
+                        slow_mode = True
+                        slow_start_time = time.time()
+                        fall_speed = 0.5
+                        typed_green = True
+                        circles.remove(circle)
+                    elif circle["color"] == BLUE:
+                        circles.clear()
+                        typed_blue = True
+
+    # ------------------ Animate character ------------------
+    time_counter += 0.2
+    breathe = math.sin(time_counter) * 3
+
+    # ------------------ Draw background ------------------
+    screen.blit(background, (0, 0))
+    screen.blit(character, (char_rect.x, char_rect.y + breathe))
+
+    # ------------------ Tutorial logic ------------------
+    # ลูกบอลสีขาวตอนแรก
+    if text_index == 3 and len(circles) == 0 and not typed_normal:
+        letter = chr(random.randint(65, 90))
+        circles.append(create_circle(random.randint(200, WIDTH - 200), 0, WHITE, letter))
+
+    # แสดงตอนอธิบายลูกบอลสีเขียว (โชว์ลูกบอลขาวด้วย)
+    elif text_index == 6 and len(circles) == 0 and not typed_green:
+        # ลูกบอลสีเขียวจริง
+        letter_g = chr(random.randint(65, 90))
+        circles.append(create_circle(random.randint(300, WIDTH - 300), 0, GREEN, letter_g))
+        # ลูกบอลสีขาวประกอบ
+        letter_w = chr(random.randint(65, 90))
+        circles.append(create_circle(random.randint(200, WIDTH - 200), -100, WHITE, letter_w))
+
+    # แสดงตอนอธิบายลูกบอลสีฟ้า (โชว์ลูกบอลขาวด้วย)
+    elif text_index == 8 and len(circles) == 0 and not typed_blue:
+        # ลูกบอลฟ้าจริง
+        letter_b = chr(random.randint(65, 90))
+        circles.append(create_circle(random.randint(300, WIDTH - 300), 0, BLUE, letter_b))
+        # ลูกบอลขาวประกอบ
+        letter_w = chr(random.randint(65, 90))
+        circles.append(create_circle(random.randint(200, WIDTH - 200), -100, WHITE, letter_w))
+
+    # ------------------ Update circles ------------------
+    for circle in circles[:]:
+        circle["y"] += fall_speed
+        pygame.draw.circle(screen, circle["color"], (circle["x"], int(circle["y"])), circle["radius"])
+        text = font.render(circle["letter"], True, BLACK)
+        text_rect = text.get_rect(center=(circle["x"], int(circle["y"])))
+        screen.blit(text, text_rect)
+
+        if circle["y"] > HEIGHT:
+            circles.remove(circle)
+
+    # ------------------ Slow mode timer ------------------
+    if slow_mode and time.time() - slow_start_time >= slow_duration:
+        slow_mode = False
+        fall_speed = normal_speed
+
+    # ------------------ Step transitions ------------------
+    if text_index == 3 and typed_normal:
+        text_index = 4  # ไปข้อความชม
+
+    if text_index == 6 and typed_green:
+        text_index = 7  # ไปต่อข้อความฟ้า
+
+    if text_index == 8 and typed_blue:
+        text_index = 9  # สอนเสร็จ
+
+    # ------------------ Draw tutorial text ------------------
+    tutorial_text = font.render(tutorial_texts[text_index], True, WHITE)
+    text_rect = tutorial_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 50))
+    screen.blit(tutorial_text, text_rect)
+
+    # ------------------ Hint (bottom text) ------------------
+    if text_index in [3, 6, 8]:
+        hint = font.render("Type the letter on the circle!", True, GRAY)
+    elif text_index == len(tutorial_texts) - 1:
+        hint = font.render("Press SPACE or ENTER to finish", True, GRAY)
+    else:
+        hint = font.render("Press SPACE to continue", True, GRAY)
+
+    hint_rect = hint.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+    screen.blit(hint, hint_rect)
+
+    # ------------------ Update screen ------------------
+    pygame.display.update()
+    clock.tick(60)
+
+pygame.quit()
