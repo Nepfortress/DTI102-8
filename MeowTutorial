@@ -1,0 +1,106 @@
+import pygame
+import random
+import sys
+import time
+
+pygame.init()
+
+WIDTH = 1280
+HEIGHT = 720
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Magic Type - Quick Tutorial")
+
+font = pygame.font.Font(None, 50)
+clock = pygame.time.Clock()
+
+WHITE = (255, 255, 255)
+GREEN = (0, 255, 0)
+BLUE = (0, 150, 255)
+BLACK = (0, 0, 0)
+GRAY = (180, 180, 180)
+BG = (30, 30, 60)
+
+tutorial_texts = [
+    "Welcome to Magic Type!",
+    "Letters will fall from the sky.",
+    "WHITE = normal (just fall)",
+    "GREEN = slow (make all slower)",
+    "BLUE = clear all circles!",
+    "Type the matching letters to destroy circles!",
+    "Good job! Tutorial complete!"
+]
+text_index = 0
+
+fall_speed = 2
+slow_mode = False
+slow_start = 0
+slow_dur = 5
+
+circles = []
+
+def create_circle(color):
+    return {
+        "x": random.randint(100, WIDTH - 100),
+        "y": random.randint(-300, -50),
+        "color": color,
+        "letter": chr(random.randint(65, 90)),
+        "radius": 35
+    }
+
+running = True
+while running:
+    screen.fill(BG)
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+        if event.type == pygame.KEYDOWN:
+            key = event.unicode.upper()
+
+            if event.key == pygame.K_SPACE:
+                if text_index < len(tutorial_texts) - 1:
+                    text_index += 1
+                else:
+                    running = False
+
+            for c in circles[:]:
+                if key == c["letter"]:
+                    if c["color"] == GREEN:
+                        slow_mode = True
+                        slow_start = time.time()
+                        fall_speed = 0.5
+                    elif c["color"] == BLUE:
+                        circles.clear()
+                    circles.remove(c)
+
+    if text_index == 2 and not any(c["color"] == WHITE for c in circles):
+        circles = [create_circle(WHITE)]
+    elif text_index == 3 and not any(c["color"] == GREEN for c in circles):
+        circles = [create_circle(GREEN)]
+    elif text_index == 4 and not any(c["color"] == BLUE for c in circles):
+        circles = [create_circle(BLUE)]
+
+    for c in circles[:]:
+        c["y"] += fall_speed
+        pygame.draw.circle(screen, c["color"], (c["x"], int(c["y"])), c["radius"])
+        letter_surf = font.render(c["letter"], True, BLACK)
+        screen.blit(letter_surf, letter_surf.get_rect(center=(c["x"], int(c["y"]))))
+        if c["y"] > HEIGHT:
+            circles.remove(c)
+
+    if slow_mode and time.time() - slow_start > slow_dur:
+        slow_mode = False
+        fall_speed = 2
+
+    text = font.render(tutorial_texts[text_index], True, WHITE)
+    screen.blit(text, text.get_rect(center=(WIDTH // 2, HEIGHT // 2)))
+
+    hint = font.render("Press SPACE to continue", True, GRAY)
+    screen.blit(hint, hint.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 60)))
+
+    pygame.display.update()
+    clock.tick(60)
+
+pygame.quit()
