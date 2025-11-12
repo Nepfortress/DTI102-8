@@ -32,8 +32,8 @@ tutorial_texts = [
     "Type the matching letters to destroy circles!",
     "Good job! Tutorial complete!"
 ]
-text_index = 0
 
+text_index = 0
 fall_speed = 2
 slow_mode = False
 slow_start = 0
@@ -44,7 +44,7 @@ circles = []
 def create_circle(color):
     return {
         "x": random.randint(100, WIDTH - 100),
-        "y": random.randint(-300, -50),
+        "y": random.randint(-100, -50),
         "color": color,
         "letter": chr(random.randint(65, 90)),
         "radius": 35
