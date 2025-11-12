@@ -1,15 +1,15 @@
 import pygame
-import sys
+import sys #ใช้ปิดโปรแกรมออกจากระบบ ปิดหน้าต่าง
 import random #ใช้สุ่มตำแหน่งดาวหรือเอฟเฟกต์
 pygame.init()
 pygame.display.set_caption("Magic Type")
-screen = pygame.display.set_mode((800, 600))
+screen = pygame.display.set_mode((1280, 720)) #ขนาดหน้าจอ
 clock = pygame.time.Clock() #ใช้ควบคุมความเร็วเฟรมของเกม
-font = pygame.font.SysFont(None, 80)
-small_font = pygame.font.SysFont(None, 50)
+font = pygame.font.SysFont(None, 80)  #ตัวใหญ่ไว้สำหรับหัวข้อ
+small_font = pygame.font.SysFont(None, 50) #ตัวเล็กสำหรับข้อความปุ่ม
 
 #สร้างตัวเเปรบอก สถานะ อยู่หน้าไหนของเกม
-state = "menu"
+state = "menu" #กำหนดสถานะเริ่มต้นของเกมให้เป็น “หน้าเมนูหลัก”
 buttons = [("Start", 320), ("Setting", 420), ("Quit", 520)]
  
 #สุ่มจุดแสงเล็กๆ สำหรับพื้นหลัง
