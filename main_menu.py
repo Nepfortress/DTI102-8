@@ -72,9 +72,9 @@ def draw_menu():
 
 #จอสีดำ แสดงหัวข้อกลางหน้าจอ
 def draw_page(label):
-    screen.fill((10, 10, 10))   #พื้นหลังของหน้าจอให้เป็นสีดำเข้ม
+    screen.fill((0, 0, 0)) 
     head = font.render(label, True, (255, 255, 255))  #สร้างข้อความชื่อหน้าเกม จากตัวแปร label
-    screen.blit(head, (530, 150))  #ข้อความแสดงบนหน้าจอ
+    screen.blit(head, (530, 150)) 
     mouse = pygame.mouse.get_pos()
     click = False
     for event in pygame.event.get():
@@ -103,5 +103,5 @@ while True:
     elif state == "setting":
         state = draw_page("SETTING")
 
-    pygame.display.update() #เเสดงหน้าจอผลทั้งหมด
+    pygame.display.update() 
     clock.tick(60) #ความเร็วเกมไม่เกิน60เฟรมต่อวิ ไม่เคลื่อนเร็วเกิน
