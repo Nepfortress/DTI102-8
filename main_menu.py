@@ -75,7 +75,6 @@ def draw_page(label):
     screen.fill((10, 10, 10))   #พื้นหลังของหน้าจอให้เป็นสีดำเข้ม
     head = font.render(label, True, (255, 255, 255))  #สร้างข้อความชื่อหน้าเกม จากตัวแปร label
     screen.blit(head, (530, 150))  #ข้อความแสดงบนหน้าจอ
-    
     mouse = pygame.mouse.get_pos()
     click = False
     for event in pygame.event.get():
@@ -89,7 +88,7 @@ def draw_page(label):
     color = (200, 60, 60) if back_rect.collidepoint(mouse) else (150, 40, 40)
     pygame.draw.rect(screen, color, back_rect, border_radius=10)
     back_txt = small_font.render("Back", True, (255, 255, 255))
-    screen.blit(back_txt, (back_rect.x + 55, back_rect.y + 15))
+    screen.blit(back_txt, (back_rect.x + 45, back_rect.y + 15))
 #ถ้าคลิกปุ่ม “Back” → กลับไปหน้าเมนู
     if back_rect.collidepoint(mouse) and click:
         return "menu"
