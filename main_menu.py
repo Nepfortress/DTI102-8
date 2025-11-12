@@ -62,7 +62,7 @@ def draw_colorful_background(): #ฟังก์ชันนี้สามา�
             star[0] = random.randint(0, 1920)
          
 def draw_menu(): #แสดงหน้าเมนูหลักของเกม
-    draw_colorful_background()  
+    draw_colorful_background()  #พื้นหลังสีสันไล่สีที่มีดาวเคลื่อนไหว
     title = font.render("Magic Type", True, (255, 255, 255))
     screen.blit(title, (480, 200))
 
