@@ -34,9 +34,9 @@ def draw_colorful_background(): #ฟังก์ชันนี้สามา�
     for star in stars:
         pygame.draw.circle(screen, (255, 255, 255), (int(star[0]), int(star[1])), star[2])
         star[1] += star[3]
-        if star[1] > 1080:
+        if star[1] > 1280:
             star[1] = 0
-            star[0] = random.randint(0, 1920)
+            star[0] = random.randint(0, 1220)
          
 def draw_menu(): #แสดงหน้าเมนูหลักของเกม
     draw_colorful_background()  #พื้นหลังสีสันไล่สีที่มีดาวเคลื่อนไหว
