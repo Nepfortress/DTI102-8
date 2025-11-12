@@ -27,7 +27,7 @@ bg_image = pygame.transform.scale(bg_image, (1280, 720))
 def draw_colorful_background(): #ฟังก์ชันนี้สามารถแก้ไขตัวแปร color_shift ที่อยู่นอกฟังก์ชันได้เนื่องจากต้องเพิ่มค่า color_shift ทุกเฟรมเพื่อเปลี่ยนสีพื้นหลังแบบอนิเมชัน ถ้าไม่มีglobalพื้นหลังจะไม่เปลี่ยนสี
     global color_shift
     color_shift = (color_shift + 1) % 765  #ตัวหมุนสีค่าระหว่าง 0-765 (255*3) เกิน 765 ให้กลับมาเริ่มที่ 0 อัตโนมัติ
- def draw_colorful_background():
+def draw_colorful_background():
     screen.blit(bg_image, (0, 0)) #วาดรูปเป็นพื้นหลัง
 
 #วาดดาวให้เคลื่อนที่บนพื้นหลัง
