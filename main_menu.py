@@ -115,6 +115,7 @@ def draw_page(label):
         return "menu"
     return label.lower()
 
+#ลูปหลักทำงานตลอดเวลา (เกมจะอยู่ในลูปนี้จนกว่าจะปิด)
 while True:
     if state == "menu":
         state = draw_menu()
@@ -123,5 +124,5 @@ while True:
     elif state == "setting":
         state = draw_page("SETTING")
 
-    pygame.display.update() 
+    pygame.display.update() #เเสดงหน้าจอผลทั้งหมด
     clock.tick(60) #ความเร็วเกมไม่เกิน60เฟรมต่อวิ ไม่เคลื่อนเร็วเกิน
