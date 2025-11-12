@@ -3,7 +3,9 @@ import main_menu
 import background
 
 pygame.init()
-screen = pygame.display.set_mode((1280, 720)) # ความละเอียดของเกม 1280x720
+WIDTH = 1280
+HEIGHT = 720
+screen = pygame.display.set_mode((WIDTH, HEIGHT)) # ความละเอียดของเกม 1280x720
 clock = pygame.time.Clock()
 title = pygame.display.set_caption('Magic Type') # 
 running = True
