@@ -24,7 +24,7 @@ for i in range(50): #สร้างจุดดาวแบบสุ่ม 50 �
 
 bg_image = pygame.image.load("mainpic.jpg").convert()
 bg_image = pygame.transform.scale(bg_image, (1280, 720))
-def draw_colorful_background(): #ฟังก์ชันนี้สามารถแก้ไขตัวแปร color_shift ที่อยู่นอกฟังก์ชันได้เนื่องจากต้องเพิ่มค่า color_shift ทุกเฟรมเพื่อเปลี่ยนสีพื้นหลังแบบอนิเมชัน ถ้าไม่มีglobalพื้นหลังจะไม่เปลี่ยนสี
+def draw_colorful_background(): 
     global color_shift
     color_shift = (color_shift + 1) % 765  #ตัวหมุนสีค่าระหว่าง 0-765 (255*3) เกิน 765 ให้กลับมาเริ่มที่ 0 อัตโนมัติ
 def draw_colorful_background():
@@ -36,10 +36,10 @@ def draw_colorful_background():
         star[1] += star[3]
         if star[1] > 1280:
             star[1] = 0
-            star[0] = random.randint(0, 1220)
+            star[0] = random.randint(0, 1280)
          
-def draw_menu(): #แสดงหน้าเมนูหลักของเกม
-    draw_colorful_background()  #พื้นหลังสีสันไล่สีที่มีดาวเคลื่อนไหว
+def draw_menu(): 
+    draw_colorful_background()
     title = font.render("Magic Type", True, (255, 255, 255))
     shadow = font.render("Magic Type", True, (0, 0, 0))
     screen.blit(shadow, (412, 94))
