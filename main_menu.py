@@ -9,17 +9,17 @@ font = pygame.font.SysFont(None, 120)
 small_font = pygame.font.SysFont(None, 55)
 
 #สร้างตัวเเปรบอก สถานะ อยู่หน้าไหนของเกม
-state = "menu" #กำหนดสถานะเริ่มต้นของเกมให้เป็น “หน้าเมนูหลัก”
+state = "menu"
 buttons = [("Start", 320), ("Setting", 420), ("Quit", 520)]
  
 #สุ่มจุดแสงเล็กๆ สำหรับพื้นหลัง
 stars = []
-for i in range(50):#สร้างจุดดาวแบบสุ่ม 50 ดวง
+for i in range(50): #สร้างจุดดาวแบบสุ่ม 50 ดวง
 #ฟังก์ชันหลักที่ใช้ในการสุ่มตัวเลข ใน Python
-    x = random.randint(0, 800) #ตำแหน่ง สุ่มจำนวนเต็ม
+    x = random.randint(0, 800) 
     y = random.randint(0, 600)
     r = random.randint(1, 3) #ขนาด จำนวนเต็ม
-    s = random.uniform(0.5, 1.5) #ความเร็วดาวหมุนความโปร่งใส จำนวนทศนิยมเหมาะกับค่าที่ต้องการความละเอียด
+    s = random.uniform(0.5, 1.5) #ความเร็วดาวหมุนความโปร่งใส
     stars.append([x, y, r, s])
 
 bg_image = pygame.image.load("mainpic.jpg").convert()
