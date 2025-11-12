@@ -46,22 +46,22 @@ def draw_menu():
     screen.blit(title, (410, 90))
 
 #ตำเเหน่งเมาส์ในตัวเเปร ตั้งค่าเริ่มต้นไว้ก่อนว่ายังไม่คลิกเมาส์
-    mouse = pygame.mouse.get_pos() #พิกัดเมาส์
+    mouse = pygame.mouse.get_pos()
     click = False
 #ตรวจจับเหตุการณ์ต่างๆ การคลิก, ปิดหน้าต่าง
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit(); sys.exit()
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            click = True  #กดเมาส์ซ้ายตั้งค่า click ให้เป็นจริง เพื่อใช้ว่าผู้เล่นคลิกปุ่ม
+            click = True 
 
-#วนลูปสร้างปุ่มทั้งหมดจากลิสต์ buttons แต่ละปุ่มมีกรอบสี่เหลี่ยมไว้ตรวจการคลิก
+#วนลูปสร้างปุ่มทั้งหมด แต่ละปุ่มมีกรอบสี่เหลี่ยมไว้ตรวจการคลิก
     for text, y in buttons:
-        rect = pygame.Rect(520, y, 240, 70) #สร้างกรอบสี่เหลี่ยม
-        color = (140, 180, 230) if rect.collidepoint(mouse) else (220, 120, 60) #คำสั่งสำคัญตรวจว่าเมาส์อยู่ในพื้นที่ของกรอบสี่เหลี่ยมมั้ย
-        pygame.draw.rect(screen, color, rect, border_radius=15)  #วาดปุ่มเป็นสี่เหลี่ยมสีที่กำหนดไว้ พร้อมมุมโค้งเล็กน้อย
-        txt = small_font.render(text, True, (0, 0, 10)) #สีตัวอักษร
-        txt_rect = txt.get_rect(center=rect.center)  #วางตรงกลางเหมือนกรอบสี่เหลี่ยม
+        rect = pygame.Rect(520, y, 240, 70) 
+        color = (140, 180, 230) if rect.collidepoint(mouse) else (220, 120, 60)
+        pygame.draw.rect(screen, color, rect, border_radius=15)  #ปุ่มสี่เหลี่ยมพร้อมมุมโค้ง
+        txt = small_font.render(text, True, (0, 0, 10)) 
+        txt_rect = txt.get_rect(center=rect.center)  #วางตัวอักษรตรงกลางเหมือนกรอบสี่เหลี่ยม
         screen.blit(txt, txt_rect)
  
         if rect.collidepoint(mouse) and click:  #ตรวจว่าผู้ใช้คลิกบนปุ่มนั้นหรือไม่
