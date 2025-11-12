@@ -1,3 +1,4 @@
+#ตัวละคร
 import pygame
 import math
 
