@@ -9,8 +9,8 @@ import time
 
 pygame.init()
 
-WIDTH = 800
-HEIGHT = 600
+WIDTH = 1280
+HEIGHT = 720
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Falling Letters Helper")
 
