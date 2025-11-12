@@ -60,6 +60,8 @@ def draw_colorful_background():
 def draw_menu(): #แสดงหน้าเมนูหลักของเกม
     draw_colorful_background()  #พื้นหลังสีสันไล่สีที่มีดาวเคลื่อนไหว
     title = font.render("Magic Type", True, (255, 255, 255))
+    shadow = font.render("Magic Type", True, (0, 0, 0))
+    screen.blit(shadow, (482, 204))
     screen.blit(title, (480, 200))
 
 #ตำเเหน่งเมาส์ในตัวเเปร ตั้งค่าเริ่มต้นไว้ก่อนว่ายังไม่คลิกเมาส์
