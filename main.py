@@ -33,8 +33,12 @@ BUTTON_HOVER = (140, 180, 230)
 BG_COLOR = (30, 30, 60)
 SLIDER_BAR_COLOR = (180, 180, 200)
 
-pygame.mixer.music.load("kfcnmagicsound.mp3")
-pygame.mixer.music.play(-1) # ลูปไม่จำกัด
+# ------------------ MUSIC SETUP ------------------
+try:
+    pygame.mixer.music.load("kfcnmagicsound.mp3")
+    pygame.mixer.music.play(-1) # Loop indefinitely
+except pygame.error:
+    print("Warning: kfcnmagicsound.mp3 not found. Music playback disabled.")
     
 # ------------------ NEW GLOBAL VARIABLES for Settings and Game ------------------
 VOLUME = 0.5 # Initial volume setting
