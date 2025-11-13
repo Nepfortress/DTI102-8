@@ -38,8 +38,8 @@ while running:
 
     screen.blit(bg, (0, 0))
 
-    shadow = font.render("SETTING", True, (0, 0, 0))
-    title = font.render("SETTING", True, (255, 255, 255))
+   shadow = font.render("SETTING", False, (0, 0, 0))
+    title = font.render("SETTING", False, (255, 255, 255))
     title_x = WIDTH // 2 - title.get_width() // 2
 
     screen.blit(shadow, (title_x + 7, 154))
@@ -57,7 +57,7 @@ while running:
         volume = (mouse[0] - slider_x) / slider_width
         pygame.mixer.music.set_volume(volume)
 
-    vol_text = small_font.render(f"Volume: {int(volume * 100)}%", True, (255, 255, 255))
+  vol_text = small_font.render(f"Volume: {int(volume * 100)}%", False, (255, 255, 255))
     vol_x = WIDTH // 2 - vol_text.get_width() // 2
     screen.blit(vol_text, (vol_x, 460))
 
