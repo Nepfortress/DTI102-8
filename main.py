@@ -68,7 +68,7 @@ SCORE = 0 # ติดตามคะแนนของผู้เล่น
 
 # ฟังก์ชันรีเซต
 def reset_game_state():
-    """Resets all variables specific to the 'game' state for a fresh start."""
+    # รีเซตตัวแปร เป็นค่าเริ่มต้นของเกม
     global game_circles, fall_speed, slow_mode, slow_start_time, last_green_time, last_blue_time, time_counter, SCORE
     game_circles = []
     fall_speed = normal_speed
@@ -97,7 +97,7 @@ def update_circle(circle):
 # ฟังก์ชันสำหรับวาดภาพ
 
 def draw_colorful_background(): 
-    """Draws the main menu background with moving stars."""
+    # วาดภาพเมนูหลักที่มีพื้นหลังเป็นดวงดาวที่ตกลงมา
     screen.blit(bg_image, (0, 0))
     for star in stars:
         pygame.draw.circle(screen, WHITE, (int(star[0]), int(star[1])), star[2])
@@ -107,7 +107,7 @@ def draw_colorful_background():
             star[0] = random.randint(0, WIDTH)
          
 def draw_menu(): 
-    """Draws the main menu interface."""
+    # วาดภาพหน้าเมนูหลัก
     global STATE
     draw_colorful_background()
     title = font.render("Magic Type", True, WHITE)
@@ -143,9 +143,7 @@ def draw_menu():
     return new_state
 
 def draw_page(label):
-    """
-    Draws the Settings screen with the Volume Slider.
-    """
+    # วาดภาพเมนูตั้งค่าที่มีสไลด์กำหนดความดังของเสียง
     global VOLUME, DRAGGING
     
     mouse = pygame.mouse.get_pos()
@@ -159,7 +157,7 @@ def draw_page(label):
             # กดปุ่ม 'Esc' เพื่อไปที่เมนูหลัก
             return "menu" 
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            # Check if mouse clicked on the slider area
+            # ตรวจสอบว่าเมาส์ถูกกดบนตัวสไลด์แล้ว
             slider_hitbox_rect = pygame.Rect(250, 400 - 20, 700, 14 + 40) # Add padding for easier clicking
             if slider_hitbox_rect.collidepoint(mouse):
                  DRAGGING = True
