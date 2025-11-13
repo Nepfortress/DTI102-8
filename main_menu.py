@@ -37,8 +37,8 @@ def draw_colorful_background():
          
 def draw_menu(): 
     draw_colorful_background()
-    title = font.render("Magic Type", True, (255, 255, 255))
-    shadow = font.render("Magic Type", True, (0, 0, 0))
+    title = font.render("Magic Type", False, (255, 255, 255))
+    shadow = font.render("Magic Type", False, (0, 0, 0))
     screen.blit(shadow, (412, 94))
     screen.blit(title, (410, 90))
 
