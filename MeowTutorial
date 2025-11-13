@@ -63,7 +63,7 @@ while running:
             key = event.unicode.upper()
 
             if event.key == pygame.K_SPACE:
-                if text_index < len(tutorial_texts) - 1:
+                if text_index != len(tutorial_texts):
                     text_index += 1
                 else:
                     running = False
