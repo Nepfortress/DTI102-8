@@ -195,7 +195,7 @@ def draw_page(label):
         if slider_x <= mouse_x <= slider_x + slider_width:
             VOLUME = (mouse_x - slider_x) / slider_width
             pygame.mixer.music.set_volume(VOLUME)
-        # ถ้าลากออกIf dragging outside, clamp to the ends
+        # จำกัดค่าเมาส์ไม่ให้เลื่อนเลยตัวสไลด์ของตัวตั้งค่าเพลง
         elif mouse_x < slider_x:
             VOLUME = 0.0
             pygame.mixer.music.set_volume(VOLUME)
