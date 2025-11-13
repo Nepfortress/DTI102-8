@@ -190,7 +190,7 @@ def draw_page(label):
 
     # ลอจิกของตัวสไลด์เสียงเพลง
     if DRAGGING:
-        # Clamp the mouse X position within the slider bar limits
+        # จำกัดค่าเมาส์ไม่ให้เลื่อนเลยตัวสไลด์ของตัวตั้งค่าเพลง
         mouse_x = mouse[0]
         if slider_x <= mouse_x <= slider_x + slider_width:
             VOLUME = (mouse_x - slider_x) / slider_width
