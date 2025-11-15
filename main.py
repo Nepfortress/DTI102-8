@@ -67,7 +67,8 @@ char_rect = character_img.get_rect(midbottom=(WIDTH // 2 + 50, HEIGHT - 0))
 
 # ตัวแปรของเกม
 game_circles = []
-normal_speed = 2
+INITIAL_NORMAL_SPEED = 2 # ความเร็วเริ่มต้นคงที่
+normal_speed = INITIAL_NORMAL_SPEED # ความเร็วปัจจุบัน (จะปรับตามคะแนน)
 fall_speed = normal_speed
 slow_mode = False
 slow_start_time = 0
@@ -107,10 +108,14 @@ T_SLOW_DURATION = 5 # ระยะเวลาของโหมดช้าใ�
 # ฟังก์ชันรีเซต
 def reset_game_state():
     # รีเซตตัวแปร เป็นค่าเริ่มต้นของเกม
-    global game_circles, fall_speed, slow_mode, slow_start_time, last_green_time, last_blue_time, time_counter, SCORE
+    global game_circles, fall_speed, normal_speed, slow_mode, slow_start_time, last_green_time, last_blue_time, time_counter, SCORE
     global total_play_time, start_stopwatch, end_stopwatch
     game_circles = []
+    
+    # รีเซตความเร็วให้เป็นค่าเริ่มต้น
+    normal_speed = INITIAL_NORMAL_SPEED 
     fall_speed = normal_speed
+    
     slow_mode = False
     slow_start_time = 0
     last_green_time = 0
@@ -148,6 +153,7 @@ def draw_circle(circle):
     screen.blit(text, text_rect)
 
 def update_circle(circle):
+    # ฟังก์ชันนี้ใช้ fall_speed ทั่วไป ซึ่งถูกควบคุมโดย run_game()
     circle["y"] += fall_speed
 
 # ตัวแปรของเมนูสำหรับดวงดาวตก
@@ -408,7 +414,7 @@ def draw_page(label):
 
 def run_game():
     # ฟังก์ชันนี้ไว้สำหรับลอจิกตัวอักขระตก
-    global game_circles, fall_speed, slow_mode, slow_start_time, last_green_time, last_blue_time
+    global game_circles, fall_speed, normal_speed, slow_mode, slow_start_time, last_green_time, last_blue_time
     global time_counter, SCORE, total_play_time, start_stopwatch, end_stopwatch # ใช้สำหรับคะแนน score ที่เป็น global
     current_time = time.time()
     new_state = "game"
@@ -441,15 +447,36 @@ def run_game():
                         game_circles.clear()
                         break
                     game_circles.remove(circle)
-                    break 
-
+                    break
+    
+    # =========================================================================
+    # ลอจิกปรับความยากตามคะแนน (เพิ่มความเร็วและความถี่ในการเกิดทุกๆ 100 คะแนน)
+    # =========================================================================
+    difficulty_multiplier = SCORE // 100
+    
+    # 1. ปรับความเร็วในการตก: เพิ่มขึ้น 0.5 สำหรับทุกๆ 100 คะแนน
+    # เช่น 0-99: 2.0, 100-199: 2.5, 200-299: 3.0, 300-399: 3.5, ...
+    speed_increase_per_level = 0.5
+    new_normal_speed = INITIAL_NORMAL_SPEED + (difficulty_multiplier * speed_increase_per_level)
+    
+    # อัปเดตความเร็วหลัก (normal_speed) แต่ถ้าอยู่ในโหมดช้า (slow_mode) ให้คงความเร็วช้าไว้
+    if not slow_mode:
+        normal_speed = new_normal_speed
+        fall_speed = normal_speed
+        
+    # 2. ปรับความน่าจะเป็นในการเกิดของวงกลม: เพิ่มโอกาส 0.0025 สำหรับทุกๆ 100 คะแนน
+    # เช่น 0-99: 0.01, 100-199: 0.0125, 200-299: 0.015, ...
+    spawn_increase_per_level = 0.0025
+    base_spawn_chance = 0.01
+    spawn_chance = base_spawn_chance + (difficulty_multiplier * spawn_increase_per_level) 
+    
     # โหมดของตกช้าลง
     if slow_mode and current_time - slow_start_time >= slow_duration:
         slow_mode = False
-        fall_speed = normal_speed
+        fall_speed = normal_speed # กลับไปใช้ความเร็วที่ปรับตามคะแนนแล้ว
 
     # ลอจิกสำหรับการเกิดของตัวอักษรที่ตกลงมา
-    if random.random() < 0.01:
+    if random.random() < spawn_chance: # ใช้ spawn_chance ที่ปรับปรุงแล้ว
         letter = chr(random.randint(65, 90))
         normal_circle = create_circle(random.randint(50, WIDTH - 50), 0, WHITE, letter, radius=35)
         game_circles.append(normal_circle)
@@ -466,7 +493,7 @@ def run_game():
         game_circles.append(blue_circle)
         last_blue_time = current_time
 
-    # วาดภาพและอัปเดตภาพ
+    # วาดภาพและอัปเดตภาพของตัวละคร
     time_counter += 0.2
     breathe = math.sin(time_counter) * 3
 
@@ -474,11 +501,14 @@ def run_game():
 
     # แสดงคะแนนปัจจุบัน
     score_text = small_font.render(f"Score: {SCORE}", True, WHITE)
+    # แสดงระดับความยากปัจจุบัน
+    difficulty_text = small_font.render(f"Level: {difficulty_multiplier + 1}", True, WHITE)
+    
     screen.blit(score_text, (WIDTH - score_text.get_width() - 700, 670))
+    screen.blit(difficulty_text, (WIDTH - score_text.get_width() - 950, 670)) # แสดงระดับความยาก
 
     # *** ลอจิกจับเวลา: คำนวณและแสดงเวลาที่เล่นแบบเรียลไทม์ ***
     current_elapsed_time = current_time - start_stopwatch
-    # เปลี่ยนจาก :.1f เป็น :.2f
     time_display = small_font.render(f"Time: {current_elapsed_time:.2f}s", True, WHITE)
     screen.blit(time_display, (WIDTH - time_display.get_width() - 250, 670))
     
@@ -486,7 +516,8 @@ def run_game():
     screen.blit(character_img, (char_rect.x, char_rect.y + breathe))
 
     for circle in game_circles[:]:
-        update_circle(circle)
+        # วงกลมจะตกลงมาตามค่า fall_speed ที่ถูกปรับปรุงแล้ว
+        update_circle(circle) 
         draw_circle(circle)
 
         # เงื่อนไขเกมโอเวอร์
@@ -507,7 +538,6 @@ def draw_game_over():
     score_text = small_font.render(f"FINAL SCORE: {SCORE}", True, GREEN)
     
     # ใช้ค่า total_play_time ที่คำนวณไว้แล้ว
-    # เปลี่ยนจาก :.1f เป็น :.2f
     total_play_time_text = small_font.render(f"Total time played: {total_play_time:.2f}s", True, GREEN) 
     
     restart_text = tiny_font.render("Press ENTER to RESTART", True, GRAY)
