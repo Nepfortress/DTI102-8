@@ -34,11 +34,8 @@ BG_COLOR = (30, 30, 60)
 SLIDER_BAR_COLOR = (180, 180, 200)
 
 # เพลง (สมมติว่ามีไฟล์ mp3 อยู่ในไดเรกทอรีเดียวกัน)
-try:
-    pygame.mixer.music.load("kfcnmagicsound.mp3")
-    pygame.mixer.music.play(-1) # ลูปไม่จำกัดเพื่อเล่นเพลง
-except pygame.error:
-    print("Warning: Could not load kfcnmagicsound.mp3. Playing without music.")
+pygame.mixer.music.load("kfcnmagicsound.mp3")
+pygame.mixer.music.play(-1) # ลูปไม่จำกัดเพื่อเล่นเพลง
 
 # ตัวแปรส่วนกลางสำหรับการตั้งค่าและเกม
 VOLUME = 0.5 # สำหรับการเริ่มต้นใช้เสียง
@@ -46,22 +43,14 @@ pygame.mixer.music.set_volume(VOLUME)
 DRAGGING = False # สถานะสำหรับการควบคุมเสียงโดยการสไลด์ตัวปุ่มปรับระดับเสียง
 
 # โหลดตัว Assets ของเกม (สมมติว่ามีไฟล์ภาพอยู่)
-try:
-    bg_image = pygame.image.load("mainpic.jpg").convert()
-    bg_image = pygame.transform.scale(bg_image, (WIDTH, HEIGHT))
-    background_game = pygame.image.load("softmountain.png").convert()
-    background_game = pygame.transform.scale(background_game, (WIDTH, HEIGHT))
-    character_img = pygame.image.load("boy.png").convert_alpha()
-    character_img = pygame.transform.scale(character_img, (150, 150))
-    background_setting = pygame.image.load("river1.jpg").convert()
-    background_setting = pygame.transform.scale(background_setting, (WIDTH, HEIGHT))
-except pygame.error as e:
-    print(f"Error loading assets: {e}. Using placeholders.")
-    # Fallback placeholders if images are missing
-    bg_image = pygame.Surface((WIDTH, HEIGHT)); bg_image.fill(BG_COLOR)
-    background_game = pygame.Surface((WIDTH, HEIGHT)); background_game.fill(BG_COLOR)
-    character_img = pygame.Surface((150, 150)); character_img.fill(LIGHT_RED)
-    background_setting = pygame.Surface((WIDTH, HEIGHT)); background_setting.fill(BG_COLOR)
+bg_image = pygame.image.load("mainpic.jpg").convert()
+bg_image = pygame.transform.scale(bg_image, (WIDTH, HEIGHT))
+background_game = pygame.image.load("softmountain.png").convert()
+background_game = pygame.transform.scale(background_game, (WIDTH, HEIGHT))
+character_img = pygame.image.load("boy.png").convert_alpha()
+character_img = pygame.transform.scale(character_img, (150, 150))
+background_setting = pygame.image.load("river1.jpg").convert()
+background_setting = pygame.transform.scale(background_setting, (WIDTH, HEIGHT))
 
 char_rect = character_img.get_rect(midbottom=(WIDTH // 2 + 50, HEIGHT - 0))
 
