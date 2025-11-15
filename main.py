@@ -245,7 +245,7 @@ def run_game():
     current_time = time.time()
     new_state = "game"
 
-    # ลอจิกจับเวลา เริ่มจับเวลาเมื่อเข้าสู่เกมครั้งแรก
+    # *** ลอจิกจับเวลา: เริ่มจับเวลาเมื่อเข้าสู่เกมครั้งแรก ***
     if start_stopwatch == 0.0:
         start_stopwatch = current_time
 
@@ -308,9 +308,10 @@ def run_game():
     score_text = small_font.render(f"Score: {SCORE}", True, WHITE)
     screen.blit(score_text, (WIDTH - score_text.get_width() - 700, 670))
 
-    # ลอจิกจับเวลา คำนวณและแสดงเวลาที่เล่นแบบเรียลไทม์
+    # ลอจิกจับเวลา: คำนวณและแสดงเวลาที่เล่นแบบเรียลไทม์
     current_elapsed_time = current_time - start_stopwatch
-    time_display = small_font.render(f"Time: {current_elapsed_time:.1f}s", True, WHITE)
+    # เปลี่ยนจาก :.1f เป็น :.2f
+    time_display = small_font.render(f"Time: {current_elapsed_time:.2f}s", True, WHITE)
     screen.blit(time_display, (WIDTH - time_display.get_width() - 250, 670))
     
     screen.blit(character_img, (char_rect.x, char_rect.y + breathe))
@@ -337,6 +338,7 @@ def draw_game_over():
     score_text = small_font.render(f"FINAL SCORE: {SCORE}", True, GREEN)
     
     # ใช้ค่า total_play_time ที่คำนวณไว้แล้ว
+    # เปลี่ยนจาก :.1f เป็น :.2f
     total_play_time_text = small_font.render(f"Total time played: {total_play_time:.2f}s", True, GREEN) 
     
     restart_text = tiny_font.render("Press ENTER to RESTART", True, GRAY)
@@ -352,7 +354,7 @@ def draw_game_over():
 
     screen.blit(title, title_rect)
     screen.blit(score_text, score_rect)
-    screen.blit(total_play_time_text, total_play_time_rect)
+    screen.blit(total_play_time_text, total_play_time_rect) # ใช้ตัวแปรที่ถูกต้อง
     screen.blit(restart_text, restart_rect)
     screen.blit(menu_text, menu_rect)
 
