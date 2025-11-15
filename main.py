@@ -4,7 +4,7 @@ import random
 import time
 import math
 
-pygame.init()
+pygame.init() # เริ่มต้นใช้ pygame modules
 pygame.mixer.init() # เริ่มต้นใช้ mixer
 
 # ตัวแปร Global
@@ -12,6 +12,8 @@ WIDTH = 1280
 HEIGHT = 720
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Magic Type')
+icon_img = pygame.image.load('magic_logo.png')
+pygame.display.set_icon(icon_img)
 clock = pygame.time.Clock()
 font = pygame.font.SysFont(None, 120)
 small_font = pygame.font.SysFont(None, 65) # ปรับขนาดของฟอนต์ให้ชัดเจนมากขึ้น
@@ -496,7 +498,7 @@ def run_game():
     screen.blit(score_text, (WIDTH - score_text.get_width() - 700, 670))
     screen.blit(difficulty_text, (WIDTH - score_text.get_width() - 950, 670)) # แสดงระดับความยาก
 
-    # *** ลอจิกจับเวลา: คำนวณและแสดงเวลาที่เล่นแบบเรียลไทม์ ***
+    # ลอจิกจับเวลา: คำนวณและแสดงเวลาที่เล่นแบบเรียลไทม์
     current_elapsed_time = current_time - start_stopwatch
     time_display = small_font.render(f"Time: {current_elapsed_time:.2f}s", True, WHITE)
     screen.blit(time_display, (WIDTH - time_display.get_width() - 250, 670))
