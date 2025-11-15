@@ -80,6 +80,30 @@ end_stopwatch = 0.0 # หยุดจับเวลา
 total_play_time = 0.0 # เวลาที่เล่นทั้งหมด (เมื่อเกมจบ)
 SCORE = 0 # ติดตามคะแนนของผู้เล่น
 
+# ------------------ ตัวแปรสำหรับโหมดสอน (Tutorial) ------------------
+tutorial_texts = [
+    "Welcome to Magic Type!",
+    "Letters will fall from the sky.",
+    "Type the matching letter to destroy the circle.",
+    "Now, try typing this normal WHITE circle!",
+    "Nice! The WHITE circle is normal.",
+    "If it's GREEN - all letters will fall slower (5s).",
+    "Try typing the GREEN circle now!",
+    "Good! Now if it's BLUE - all circles disappear!",
+    "Try typing the BLUE circle now!",
+    "Excellent! Tutorial complete!"
+]
+
+TUTORIAL_INDEX = 0
+T_TYPED_NORMAL = False
+T_TYPED_GREEN = False
+T_TYPED_BLUE = False
+T_NORMAL_SPEED = 2 # ความเร็วการตกในโหมดสอน
+T_FALL_SPEED = T_NORMAL_SPEED
+T_SLOW_MODE = False
+T_SLOW_START_TIME = 0
+T_SLOW_DURATION = 5 # ระยะเวลาของโหมดช้าในโหมดสอน
+
 # ฟังก์ชันรีเซต
 def reset_game_state():
     # รีเซตตัวแปร เป็นค่าเริ่มต้นของเกม
@@ -97,6 +121,21 @@ def reset_game_state():
     total_play_time = 0.0
     SCORE = 0 # Reset score
     print("Game state has been reset.")
+
+def reset_tutorial_state():
+    # รีเซตตัวแปรของโหมดสอน
+    global TUTORIAL_INDEX, T_TYPED_NORMAL, T_TYPED_GREEN, T_TYPED_BLUE, game_circles
+    global T_FALL_SPEED, T_SLOW_MODE, T_SLOW_START_TIME
+    TUTORIAL_INDEX = 0
+    T_TYPED_NORMAL = False
+    T_TYPED_GREEN = False
+    T_TYPED_BLUE = False
+    T_FALL_SPEED = T_NORMAL_SPEED
+    T_SLOW_MODE = False
+    T_SLOW_START_TIME = 0
+    game_circles = []
+    print("Tutorial state has been reset.")
+
 
 # วาดตัววงกลม
 def create_circle(x, y, color, letter, radius=35):
@@ -161,12 +200,141 @@ def draw_menu():
 
         if rect.collidepoint(mouse) and click:
             if text == "Start": 
-                reset_game_state() # รีเซตสถานะของเกมเมื่อเริ่มต้น
-                new_state = "game"
+                reset_tutorial_state() # เตรียมเข้าโหมดสอน
+                new_state = "tutorial"
             elif text == "Setting": new_state = "setting"
             elif text == "Quit": pygame.quit(); sys.exit()
 
     return new_state
+
+def draw_tutorial():
+    # ฟังก์ชันสำหรับจัดการและแสดงผลโหมดสอน (Tutorial)
+    global STATE, TUTORIAL_INDEX, T_TYPED_NORMAL, T_TYPED_GREEN, T_TYPED_BLUE
+    global game_circles, T_FALL_SPEED, T_SLOW_MODE, T_SLOW_START_TIME
+    global time_counter, T_SLOW_DURATION, T_NORMAL_SPEED
+    current_time = time.time()
+    new_state = "tutorial"
+    
+    # Event handling
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit(); sys.exit()
+
+        if event.type == pygame.KEYDOWN:
+            key_pressed = event.unicode.upper()
+
+            # SPACEBAR → กดเพื่อไปข้อความถัดไป
+            if event.key == pygame.K_SPACE:
+                # ลอจิกป้องกันการข้ามขั้นตอนที่ต้องการปฏิสัมพันธ์
+                if TUTORIAL_INDEX == 3 and not T_TYPED_NORMAL:
+                    pass
+                elif TUTORIAL_INDEX == 6 and not T_TYPED_GREEN:
+                    pass
+                elif TUTORIAL_INDEX == 8 and not T_TYPED_BLUE:
+                    pass
+                elif TUTORIAL_INDEX < len(tutorial_texts) - 1:
+                    TUTORIAL_INDEX += 1
+                elif TUTORIAL_INDEX == len(tutorial_texts) - 1:
+                    # จบโหมดสอน, ไปที่เกมหลัก
+                    reset_tutorial_state()
+                    reset_game_state() 
+                    return "game"
+
+            # พิมพ์ตัวอักษรเพื่อทำลายลูกบอล
+            for circle in game_circles[:]:
+                if key_pressed == circle["letter"]:
+                    if circle["color"] == WHITE:
+                        T_TYPED_NORMAL = True
+                        game_circles.remove(circle)
+                        break
+                    elif circle["color"] == GREEN:
+                        T_SLOW_MODE = True
+                        T_SLOW_START_TIME = time.time()
+                        T_FALL_SPEED = 0.5 # Slow down speed
+                        T_TYPED_GREEN = True
+                        game_circles.remove(circle)
+                        break
+                    elif circle["color"] == BLUE:
+                        game_circles.clear()
+                        T_TYPED_BLUE = True
+                        break
+                    
+    # Animate character (using center position)
+    time_counter += 0.2
+    breathe = math.sin(time_counter) * 3
+
+    # Draw background and character
+    screen.blit(background_game, (0, 0))
+    # ใช้ตำแหน่งกลางจอสำหรับตัวละครในโหมดสอน
+    char_rect_tutorial = character_img.get_rect(midbottom=(WIDTH // 2, HEIGHT - 40)) 
+    screen.blit(character_img, (char_rect_tutorial.x, char_rect_tutorial.y + breathe))
+
+    # --- Tutorial logic for spawning circles ---
+    # White circle
+    if TUTORIAL_INDEX == 3 and len(game_circles) == 0 and not T_TYPED_NORMAL:
+        letter = chr(random.randint(65, 90))
+        game_circles.append(create_circle(random.randint(200, WIDTH - 200), 0, WHITE, letter))
+
+    # Green circle (with a white one for distraction)
+    elif TUTORIAL_INDEX == 6 and len(game_circles) == 0 and not T_TYPED_GREEN:
+        letter_g = chr(random.randint(65, 90))
+        game_circles.append(create_circle(random.randint(300, WIDTH - 300), 0, GREEN, letter_g))
+        
+        letter_w = chr(random.randint(65, 90))
+        game_circles.append(create_circle(random.randint(200, WIDTH - 200), -100, WHITE, letter_w))
+
+    # Blue circle (with a white one for distraction)
+    elif TUTORIAL_INDEX == 8 and len(game_circles) == 0 and not T_TYPED_BLUE:
+        letter_b = chr(random.randint(65, 90))
+        game_circles.append(create_circle(random.randint(300, WIDTH - 300), 0, BLUE, letter_b))
+        
+        letter_w = chr(random.randint(65, 90))
+        game_circles.append(create_circle(random.randint(200, WIDTH - 200), -100, WHITE, letter_w))
+
+
+    # --- Update and Draw circles (using T_FALL_SPEED) ---
+    for circle in game_circles[:]:
+        circle["y"] += T_FALL_SPEED
+        draw_circle(circle) # Reuse draw_circle function
+
+        # ถ้าวงกลมตกเลยขอบจอ, ให้ลบออก (ไม่เกมโอเวอร์ในโหมดสอน)
+        if circle["y"] > HEIGHT:
+            game_circles.remove(circle)
+
+    # --- Slow mode timer ---
+    if T_SLOW_MODE and time.time() - T_SLOW_START_TIME >= T_SLOW_DURATION:
+        T_SLOW_MODE = False
+        T_FALL_SPEED = T_NORMAL_SPEED
+
+
+    # --- Step transitions (automatic advance) ---
+    if TUTORIAL_INDEX == 3 and T_TYPED_NORMAL:
+        TUTORIAL_INDEX = 4
+
+    if TUTORIAL_INDEX == 6 and T_TYPED_GREEN:
+        TUTORIAL_INDEX = 7
+
+    if TUTORIAL_INDEX == 8 and T_TYPED_BLUE:
+        TUTORIAL_INDEX = 9
+        
+    # --- Draw tutorial text ---
+    # ข้อความหลัก (อยู่ด้านล่างตัวช่วย)
+    tutorial_text = small_font.render(tutorial_texts[TUTORIAL_INDEX], True, WHITE)
+    text_rect = tutorial_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 100))
+    screen.blit(tutorial_text, text_rect)
+
+    # --- Hint (top text) ---
+    if TUTORIAL_INDEX in [3, 6, 8]:
+        hint = small_font.render("Type the letter on the circle!", True, GRAY)
+    elif TUTORIAL_INDEX == len(tutorial_texts) - 1:
+        hint = small_font.render("Press SPACE or ENTER to finish", True, GRAY)
+    else:
+        hint = small_font.render("Press SPACE to continue", True, GRAY)
+
+    hint_rect = hint.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 50))
+    screen.blit(hint, hint_rect)
+    
+    return new_state # อยู่ในโหมดสอน
 
 def draw_page(label):
     # วาดภาพเมนูตั้งค่าที่มีสไลด์กำหนดความดังของเสียง
@@ -308,12 +476,13 @@ def run_game():
     score_text = small_font.render(f"Score: {SCORE}", True, WHITE)
     screen.blit(score_text, (WIDTH - score_text.get_width() - 700, 670))
 
-    # ลอจิกจับเวลา: คำนวณและแสดงเวลาที่เล่นแบบเรียลไทม์
+    # *** ลอจิกจับเวลา: คำนวณและแสดงเวลาที่เล่นแบบเรียลไทม์ ***
     current_elapsed_time = current_time - start_stopwatch
     # เปลี่ยนจาก :.1f เป็น :.2f
     time_display = small_font.render(f"Time: {current_elapsed_time:.2f}s", True, WHITE)
     screen.blit(time_display, (WIDTH - time_display.get_width() - 250, 670))
     
+    # ใช้ตำแหน่งตัวละครของเกมหลัก
     screen.blit(character_img, (char_rect.x, char_rect.y + breathe))
 
     for circle in game_circles[:]:
@@ -379,6 +548,8 @@ menu_buttons = [("Start", 320), ("Setting", 420), ("Quit", 520)]
 while True:
     if STATE == "menu":
         STATE = draw_menu()
+    elif STATE == "tutorial":
+        STATE = draw_tutorial()
     elif STATE == "game":
         STATE = run_game()
     elif STATE == "setting":
