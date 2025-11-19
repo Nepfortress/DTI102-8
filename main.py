@@ -74,16 +74,16 @@ SCORE = 0 # ติดตามคะแนนของผู้เล่น
 
 # ------------------ ตัวแปรสำหรับโหมดสอน (Tutorial) ------------------
 tutorial_texts = [
-    "ยินดีต้อนรับเข้าสู่ Magic Type!",
-    "ตัวอักษรภาษาอังกฤษกำลังจะหล่นจากฟ้า",
-    "พิมพ์ตัวอักษรให้เหมือนในวงกลม ก่อนมันจะถึงพื้น!",
-    "ลองพิมพ์ตัวอักษรในวงกลมสีขาวดูสิ!",
-    "เยี่ยมเลย! วงกลมสีขาวคือวงกลมคะแนนปกติ",
-    "ถ้าวงกลมเป็นสีเขียว - วงกลมทุกอันจะหล่นช้าลง (5s)",
-    "ลองพิมพ์ตัวอักษรในวงกลมสีเขียวดูสิ!",
-    "เก่งมาก! ตอนนี้ถ้าวงกลมสีฟ้า - วงกลมทุกอันจะหายไปขณะนึง!",
-    "ลองพิมพ์ตัวอักษรในวงกลมสีเขียวดูสิ!",
-    "ดีมาก! ตอนนี้การสอนเล่นจบแล้ว"
+    "Welcome to Magic Type!",
+    "Letters will fall from the sky.",
+    "Type the matching letter to destroy the circle.",
+    "Now, try typing this normal WHITE circle!",
+    "Nice! The WHITE circle is normal.",
+    "If it's GREEN - all letters will fall slower (5s).",
+    "Try typing the GREEN circle now!",
+    "Good! Now if it's BLUE - all circles disappear!",
+    "Try typing the BLUE circle now!",
+    "Excellent! Tutorial complete!"
 ]
 
 TUTORIAL_INDEX = 0
