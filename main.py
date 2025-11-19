@@ -29,6 +29,7 @@ BLACK = (0, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 150, 255)
 RED = (200, 60, 60)
+YELLOW = (255, 255, 0)
 LIGHT_RED = (150, 40, 40)
 BUTTON_DEFAULT = (220, 120, 60)
 BUTTON_HOVER = (140, 180, 230)
@@ -297,11 +298,11 @@ def draw_tutorial(): # Drawing tutorial scene
     screen.blit(tutorial_text, text_rect)
 
     if TUTORIAL_INDEX in [3, 6, 8]:
-        tutorial_hint = small_font.render("Type the letter on the circle!", True, GRAY)
+        tutorial_hint = small_font.render("Type the letter on the circle!", True, YELLOW)
     elif TUTORIAL_INDEX == len(tutorial_texts) - 1:
-        tutorial_hint = small_font.render("Press SPACE or ENTER to finish", True, GRAY)
+        tutorial_hint = small_font.render("Press SPACE or ENTER to finish", True, YELLOW)
     else:
-        tutorial_hint = small_font.render("Press SPACE to continue", True, GRAY)
+        tutorial_hint = small_font.render("Press SPACE to continue", True, YELLOW)
 
     tutorial_hint_rect = tutorial_hint.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 50))
     screen.blit(tutorial_hint, tutorial_hint_rect)
