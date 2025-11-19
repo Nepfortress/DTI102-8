@@ -157,7 +157,6 @@ for i in range(50):
     stars.append([x, y, r, s])
 
 # ฟังก์ชันสำหรับวาดภาพ
-
 def draw_colorful_background(): 
     # วาดภาพเมนูหลักที่มีพื้นหลังเป็นดวงดาวที่ตกลงมา
     screen.blit(bg_image, (0, 0))
@@ -169,8 +168,8 @@ def draw_colorful_background():
             star[0] = random.randint(0, WIDTH)
 
 def draw_menu(): 
-    # วาดภาพหน้าเมนูหลัก
-    global STATE
+    #วาดภาพหน้าเมนูหลัก
+    #global STATE
     draw_colorful_background()
     title = font.render("Magic Type", True, WHITE)
     shadow = font.render("Magic Type", True, BLACK)
