@@ -20,7 +20,7 @@ small_font = pygame.font.SysFont(None, 65)
 tiny_font = pygame.font.SysFont(None, 35)
 
 # Game state, MUST start at main menu
-STATE = "menu" # ตัวแปร STATE คือ หน้า menu ของเกม
+STATE = "menu"
 
 # Global RGB color variables
 WHITE = (255, 255, 255)
@@ -41,7 +41,7 @@ VOLUME = 0.5 # Default volume level
 pygame.mixer.music.set_volume(VOLUME) 
 DRAGGING = False # State for dragging volume slider
 
-# โหลดตัว Assets ของเกม
+# Load game assets i.e. pictures, music
 main_menu_background_image = pygame.image.load("mainpic.jpg").convert()
 main_menu_background_image = pygame.transform.scale(main_menu_background_image, (WIDTH, HEIGHT))
 in_game_background_image = pygame.image.load("softmountain.png").convert()
@@ -250,21 +250,19 @@ def draw_tutorial(): # Drawing tutorial scene
     screen.blit(character_image, (char_rect_tutorial.x, char_rect_tutorial.y + breathe))
 
     # Tutorial logic for spawning circles
-    # White circle
-    if TUTORIAL_INDEX == 3 and len(game_circles) == 0 and not T_TYPED_NORMAL:
+
+    if TUTORIAL_INDEX == 3 and len(game_circles) == 0 and not T_TYPED_NORMAL: # White circle
         letter = chr(random.randint(65, 90))
         game_circles.append(create_circle(random.randint(200, WIDTH - 200), 0, WHITE, letter))
 
-    # Green circle
-    elif TUTORIAL_INDEX == 6 and len(game_circles) == 0 and not T_TYPED_GREEN:
+    elif TUTORIAL_INDEX == 6 and len(game_circles) == 0 and not T_TYPED_GREEN: # Green circle
         letter_g = chr(random.randint(65, 90))
         game_circles.append(create_circle(random.randint(300, WIDTH - 300), 0, GREEN, letter_g))
 
         letter_w = chr(random.randint(65, 90))
         game_circles.append(create_circle(random.randint(200, WIDTH - 200), -100, WHITE, letter_w))
 
-    # Blue circle
-    elif TUTORIAL_INDEX == 8 and len(game_circles) == 0 and not T_TYPED_BLUE:
+    elif TUTORIAL_INDEX == 8 and len(game_circles) == 0 and not T_TYPED_BLUE: # Blue circle
         letter_b = chr(random.randint(65, 90))
         game_circles.append(create_circle(random.randint(300, WIDTH - 300), 0, BLUE, letter_b))
 
@@ -299,14 +297,14 @@ def draw_tutorial(): # Drawing tutorial scene
     screen.blit(tutorial_text, text_rect)
 
     if TUTORIAL_INDEX in [3, 6, 8]:
-        hint = small_font.render("Type the letter on the circle!", True, GRAY)
+        tutorial_hint = small_font.render("Type the letter on the circle!", True, GRAY)
     elif TUTORIAL_INDEX == len(tutorial_texts) - 1:
-        hint = small_font.render("Press SPACE or ENTER to finish", True, GRAY)
+        tutorial_hint = small_font.render("Press SPACE or ENTER to finish", True, GRAY)
     else:
-        hint = small_font.render("Press SPACE to continue", True, GRAY)
+        tutorial_hint = small_font.render("Press SPACE to continue", True, GRAY)
 
-    hint_rect = hint.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 50))
-    screen.blit(hint, hint_rect)
+    tutorial_hint_rect = tutorial_hint.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 50))
+    screen.blit(tutorial_hint, tutorial_hint_rect)
 
     return new_state
 
@@ -369,8 +367,8 @@ def setting_menu(label): # Function for drawing scene with volume slider
     screen.blit(vol_text, (vol_x, 460))
 
     # Draw Press <ESC> to go back to main menu
-    go_back_to_main_menu_hint = tiny_font.render("Press ESC to return to Menu", True, BLACK)
-    screen.blit(go_back_to_main_menu_hint, (470, 300))
+    go_back_to_main_menu_tutorial_hint = tiny_font.render("Press ESC to return to Menu", True, BLACK)
+    screen.blit(go_back_to_main_menu_tutorial_hint, (470, 300))
 
     return new_state
 
