@@ -559,7 +559,7 @@ while True:
     elif STATE == "game":
         STATE = run_game()
     elif STATE == "setting":
-        SSTATE, VOLUME, DRAGGING = draw_setting(setting_sound, DRAGGING)
+        STATE, VOLUME, DRAGGING = draw_setting(setting_sound, DRAGGING)
     elif STATE == "game_over":
         STATE = draw_game_over()
 
