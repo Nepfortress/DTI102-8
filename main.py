@@ -196,7 +196,7 @@ def draw_tutorial(): # Drawing tutorial scene
     global STATE, TUTORIAL_INDEX, T_TYPED_NORMAL, T_TYPED_GREEN, T_TYPED_BLUE
     global game_circles, T_FALL_SPEED, T_SLOW_MODE, T_SLOW_START_TIME
     global time_counter, T_SLOW_DURATION, T_NORMAL_SPEED
-    current_time = time.time()
+
     new_state = "tutorial"
 
     # Event handling
