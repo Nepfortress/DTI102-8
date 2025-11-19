@@ -37,7 +37,7 @@ BG_COLOR = (30, 30, 60)
 SLIDER_BAR_COLOR = (180, 180, 200)
 
 pygame.mixer.music.load("kfcnmagicsound.mp3") # Load some music
-pygame.mixer.music.play(1) # Play indefinitely
+pygame.mixer.music.play(-1) # Play indefinitely
 VOLUME = 0.5 # Default volume level
 pygame.mixer.music.set_volume(VOLUME) 
 DRAGGING = False # State for dragging volume slider
@@ -91,11 +91,11 @@ TUTORIAL_INDEX = 0
 T_TYPED_NORMAL = False
 T_TYPED_GREEN = False
 T_TYPED_BLUE = False
-T_NORMAL_SPEED = 2 # Circle falling speed in tutorial modeความเร็วการตกในโหมดสอน
+T_NORMAL_SPEED = 2 # Circle falling speed in tutorial mode
 T_FALL_SPEED = T_NORMAL_SPEED
 T_SLOW_MODE = False
 T_SLOW_START_TIME = 0
-T_SLOW_DURATION = 5 # Duration of slowระยะเวลาของโหมดช้าในโหมดสอน
+T_SLOW_DURATION = 5 # Duration of slow
 
 def reset_game_state(): # Reset game variables to default values
     global game_circles, fall_speed, normal_speed, slow_mode, slow_start_time, last_green_time, last_blue_time, time_counter, SCORE
@@ -375,7 +375,7 @@ def setting_menu(label): # Function for drawing scene with volume slider
 
 def run_game():
     global game_circles, fall_speed, normal_speed, slow_mode, slow_start_time, last_green_time, last_blue_time
-    global time_counter, SCORE, total_play_time, start_stopwatch, end_stopwatch # ใช้สำหรับคะแนน score ที่เป็น global
+    global time_counter, SCORE, total_play_time, start_stopwatch, end_stopwatch
     current_time = time.time()
     new_state = "game"
 
@@ -456,7 +456,7 @@ def run_game():
     difficulty_text = small_font.render(f"Level: {difficulty_multiplier + 1}", True, WHITE) # Display current difficulty or level
 
     screen.blit(score_text, (WIDTH - score_text.get_width() - 700, 670))
-    screen.blit(difficulty_text, (WIDTH - score_text.get_width() - 950, 670)) # แสดงระดับความยาก
+    screen.blit(difficulty_text, (WIDTH - score_text.get_width() - 950, 670))
 
     current_elapsed_time = current_time - start_stopwatch
     time_display = small_font.render(f"Time: {current_elapsed_time:.2f}s", True, WHITE)
@@ -492,7 +492,7 @@ def draw_game_over(): # Draw Game over scene
 
     screen.blit(title, title_rect)
     screen.blit(score_text, score_rect)
-    screen.blit(total_play_time_text, total_play_time_rect) # ใช้ตัวแปรที่ถูกต้อง
+    screen.blit(total_play_time_text, total_play_time_rect)
     screen.blit(restart_text, restart_rect)
     screen.blit(menu_text, menu_rect)
 
