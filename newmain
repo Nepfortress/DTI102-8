@@ -336,10 +336,10 @@ def draw_tutorial():
 font = pygame.font.SysFont(None, 100)
 small_font = pygame.font.SysFont(None, 65)
 
-volume = 0.5
+setting_sound = 0.5
 dragging = False
 
-def draw_setting(volume, dragging):
+def draw_setting(setting_sound, dragging):
     mouse = pygame.mouse.get_pos()
     new_state = "setting"
 
@@ -368,16 +368,16 @@ def draw_setting(volume, dragging):
     slider_width, slider_height = 700, 14
     knob_radius = 20
     pygame.draw.rect(screen, SLIDER_BAR_COLOR, (slider_x, slider_y, slider_width, slider_height))
-    knob_x = slider_x + int(slider_width * volume)
+    knob_x = slider_x + int(slider_width *setting_sound)
     pygame.draw.circle(screen, WHITE, (knob_x, slider_y + slider_height // 2), knob_radius)
 
     # อัปเดต volume ถ้ากำลังลาก
     if dragging and slider_x <= mouse[0] <= slider_x + slider_width:
-        volume = (mouse[0] - slider_x) / slider_width
-        pygame.mixer.music.set_volume(volume)
+        setting_sound = (mouse[0] - slider_x) / slider_width
+        pygame.mixer.music.set_volume(setting_sound)
 
     # แสดงตัวเลข volume
-    vol_text = small_font.render(f"Volume: {int(volume * 100)}%", True, WHITE)
+    vol_text = small_font.render(f"Volume: {int(setting_sound* 100)}%", True, WHITE)
     vol_x = WIDTH // 2 - vol_text.get_width() // 2
     screen.blit(vol_text, (vol_x, 460))
 
@@ -385,7 +385,7 @@ def draw_setting(volume, dragging):
     back_hint = tiny_font.render("Press ESC to return to Menu", True, BLACK)
     screen.blit(back_hint, (50, 650))
 
-    return new_state, volume, dragging
+    return new_state, setting_sound, dragging
   
 
 def run_game():
@@ -559,7 +559,7 @@ while True:
     elif STATE == "game":
         STATE = run_game()
     elif STATE == "setting":
-        SSTATE, VOLUME, DRAGGING = draw_setting(VOLUME, DRAGGING)
+        SSTATE, VOLUME, DRAGGING = draw_setting(setting_sound, DRAGGING)
     elif STATE == "game_over":
         STATE = draw_game_over()
 
