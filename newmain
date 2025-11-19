@@ -40,8 +40,8 @@ pygame.mixer.music.load("kfcnmagicsound.mp3")
 pygame.mixer.music.play(-1) # ลูปไม่จำกัดเพื่อเล่นเพลง
 
 # ตัวแปรส่วนกลางสำหรับการตั้งค่าและเกม
-VOLUME = 0.5 # สำหรับการเริ่มต้นใช้เสียง
-pygame.mixer.music.set_volume(VOLUME) 
+setting_sound = 0.5 # สำหรับการเริ่มต้นใช้เสียง
+pygame.mixer.music.set_volume(setting_sound) 
 DRAGGING = False # สถานะสำหรับการควบคุมเสียงโดยการสไลด์ตัวปุ่มปรับระดับเสียง
 
 # โหลดตัว Assets ของเกม (สมมติว่ามีไฟล์ภาพอยู่)
