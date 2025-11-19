@@ -322,11 +322,11 @@ def draw_tutorial():
 
     # --- Hint (top text) ---
     if TUTORIAL_INDEX in [3, 6, 8]:
-        hint = small_font.render("Type the letter on the circle!", True, GRAY)
+        hint = small_font.render("ลองพิมพ์เลย!", True, GRAY)
     elif TUTORIAL_INDEX == len(tutorial_texts) - 1:
-        hint = small_font.render("Press SPACE or ENTER to finish", True, GRAY)
+        hint = small_font.render("กด SPACE หรือ ENTER เพื่อเสร็จสิ้นการสอน", True, GRAY)
     else:
-        hint = small_font.render("Press SPACE to continue", True, GRAY)
+        hint = small_font.render("กด SPACE เพื่อไปต่อ", True, GRAY)
 
     hint_rect = hint.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 50))
     screen.blit(hint, hint_rect)
