@@ -369,8 +369,8 @@ def setting_menu(label): # Function for drawing scene with volume slider
     screen.blit(vol_text, (vol_x, 460))
 
     # Draw Press <ESC> to go back to main menu
-    back_hint = tiny_font.render("Press ESC to return to Menu", True, BLACK)
-    screen.blit(back_hint, (50, 650))
+    go_back_to_main_menu_hint = tiny_font.render("Press ESC to return to Menu", True, BLACK)
+    screen.blit(go_back_to_main_menu_hint, (470, 300))
 
     return new_state
 
