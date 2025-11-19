@@ -336,7 +336,6 @@ def draw_tutorial():
 font = pygame.font.SysFont(None, 100)
 small_font = pygame.font.SysFont(None, 65)
 
-setting_sound = 0.5
 dragging = False
 
 def draw_setting(setting_sound, dragging):
