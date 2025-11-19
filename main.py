@@ -4,10 +4,10 @@ import random
 import time
 import math
 
-pygame.init() # Using pygame เริ่มต้นใช้ pygame modules
+pygame.init() # เริ่มต้นใช้ pygame modules
 pygame.mixer.init() # เริ่มต้นใช้ mixer
 
-# GLOBAL Variables
+# ตัวแปร Global
 WIDTH = 1280
 HEIGHT = 720
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -19,7 +19,7 @@ font = pygame.font.SysFont(None, 120)
 small_font = pygame.font.SysFont(None, 65)
 tiny_font = pygame.font.SysFont(None, 35)
 
-# Game state
+# สถานะของเกม
 STATE = "menu" # ตัวแปร STATE คือ หน้า menu ของเกม
 
 # ค่าสีต่าง ๆ
@@ -183,14 +183,15 @@ def draw_menu():
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            pygame.quit(); sys.exit()
+            pygame.quit()
+            sys.exit()
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             click = True 
 
     for text, y in menu_buttons:
         rect = pygame.Rect(520, y, 240, 70) 
         color = BUTTON_HOVER if rect.collidepoint(mouse) else BUTTON_DEFAULT
-        pygame.draw.rect(screen, color, rect, border_radius=15)
+        pygame.draw.rect(screen, color, rect, border_radius=15) # Menu buttons roundness
         txt = small_font.render(text, True, BLACK) 
         txt_rect = txt.get_rect(center=rect.center)
         screen.blit(txt, txt_rect)
@@ -199,8 +200,11 @@ def draw_menu():
             if text == "Start": 
                 reset_tutorial_state() # เตรียมเข้าโหมดสอน
                 new_state = "tutorial"
-            elif text == "Setting": new_state = "setting"
-            elif text == "Quit": pygame.quit(); sys.exit()
+            elif text == "Setting":
+                new_state = "setting"
+            elif text == "Quit":
+                pygame.quit()
+                sys.exit()
 
     return new_state
 
@@ -215,7 +219,8 @@ def draw_tutorial():
     # Event handling
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            pygame.quit(); sys.exit()
+            pygame.quit()
+            sys.exit()
 
         if event.type == pygame.KEYDOWN:
             key_pressed = event.unicode.upper()
@@ -343,7 +348,8 @@ def draw_page(label):
     # การจัดการกับอีเวนท์สำหรับตัวสไลด์ปรับเสียง และการออกจากการตั้งค่า
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            pygame.quit(); sys.exit()
+            pygame.quit()
+            sys.exit()
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             # กดปุ่ม 'Esc' เพื่อไปที่เมนูหลัก
             return "menu" 
@@ -417,7 +423,8 @@ def run_game():
     # ตัวจัดการอีเวนต์
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            pygame.quit(); sys.exit()
+            pygame.quit()
+            sys.exit()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 reset_game_state() # รีเซตตัวคะแนนเมื่อออกจากเกม
@@ -551,7 +558,8 @@ def draw_game_over():
     # การจัดลำดับเหตุการณ์สำหรับเกมโอเวอร์
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            pygame.quit(); sys.exit()
+            pygame.quit()
+            sys.exit()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN: # กดปุ่ม ENTER เพื่อเล่นเกมใหม่อีกที
                 reset_game_state()
