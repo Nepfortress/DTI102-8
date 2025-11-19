@@ -80,18 +80,11 @@ for i in range(250):
     s = random.uniform(0.5, 1.5)
     stars.append([x, y, r, s])
 
-tutorial_texts = [
-    "Welcome to Magic Type!",
-    "Letters will fall from the sky.",
-    "Type the matching letter to destroy the circle.",
-    "Now, try typing this normal WHITE circle!",
-    "Nice! The WHITE circle is normal.",
-    "If it's GREEN - all letters will fall slower (5s).",
-    "Try typing the GREEN circle now!",
-    "Good! Now if it's BLUE - all circles disappear!",
-    "Try typing the BLUE circle now!",
-    "Excellent! Tutorial complete!"
-]
+tutorial_texts = ["Welcome to Magic Type!", "Letters will fall from the sky.",
+    "Type the matching letter to destroy the circle.", "Now, try typing this normal WHITE circle!",
+    "Nice! The WHITE circle is normal.", "If it's GREEN - all letters will fall slower (5s).",
+    "Try typing the GREEN circle now!", "Good! Now if it's BLUE - all circles disappear!",
+    "Try typing the BLUE circle now!", "Excellent! Tutorial complete!"]
 
 TUTORIAL_INDEX = 0
 T_TYPED_NORMAL = False
@@ -214,9 +207,9 @@ def draw_tutorial(): # Drawing tutorial scene
         if event.type == pygame.KEYDOWN:
             key_pressed = event.unicode.upper()
 
-            # SPACEBAR → กดเพื่อไปข้อความถัดไป
+            # Press <SPACEBAR> for the next tutorial text
             if event.key == pygame.K_SPACE:
-                # ลอจิกป้องกันการข้ามขั้นตอนที่ต้องการปฏิสัมพันธ์
+                # Prevention logic for skipping steps
                 if TUTORIAL_INDEX == 3 and not T_TYPED_NORMAL:
                     pass
                 elif TUTORIAL_INDEX == 6 and not T_TYPED_GREEN:
@@ -226,10 +219,9 @@ def draw_tutorial(): # Drawing tutorial scene
                 elif TUTORIAL_INDEX < len(tutorial_texts) - 1:
                     TUTORIAL_INDEX += 1
                 elif TUTORIAL_INDEX == len(tutorial_texts) - 1:
-                    # จบโหมดสอน, ไปที่เกมหลัก
                     reset_tutorial_state()
                     reset_game_state() 
-                    return "game"
+                    return "game" # End tutorial now the real game!
 
             # Type a character to destroy falling word inside a ball
             for circle in game_circles[:]:
