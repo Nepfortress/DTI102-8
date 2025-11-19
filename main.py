@@ -251,7 +251,9 @@ def draw_tutorial(): # Drawing tutorial scene
     screen.blit(character_image, (char_rect_tutorial.x, char_rect_tutorial.y + breathe))
 
     # Tutorial logic for spawning circles
-
+    # chr(codepoint) 
+    # Return the string representing a character with the specified Unicode code point
+    # e.g. chr(65)='A', chr(75)='K'
     if TUTORIAL_INDEX == 3 and len(game_circles) == 0 and not T_TYPED_NORMAL: # White circle
         letter = chr(random.randint(65, 90))
         game_circles.append(create_circle(random.randint(200, WIDTH - 200), 0, WHITE, letter))
@@ -429,6 +431,9 @@ def run_game():
         slow_mode = False
         fall_speed = normal_speed 
 
+    # chr(codepoint) 
+    # Return the string representing a character with the specified Unicode code point
+    # e.g. chr(65)='A', chr(75)='K'
     if random.random() < spawn_chance:
         letter = chr(random.randint(65, 90))
         normal_circle = create_circle(random.randint(50, WIDTH - 50), 0, WHITE, letter, radius=35)
