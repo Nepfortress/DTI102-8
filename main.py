@@ -4,10 +4,10 @@ import random
 import time
 import math
 
-pygame.init() # เริ่มต้นใช้ pygame modules
+pygame.init() # Using pygame เริ่มต้นใช้ pygame modules
 pygame.mixer.init() # เริ่มต้นใช้ mixer
 
-# ตัวแปร Global
+# GLOBAL Variables
 WIDTH = 1280
 HEIGHT = 720
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -16,13 +16,13 @@ icon_img = pygame.image.load('magic_logo.png')
 pygame.display.set_icon(icon_img)
 clock = pygame.time.Clock()
 font = pygame.font.SysFont(None, 120)
-small_font = pygame.font.SysFont(None, 65) # ปรับขนาดของฟอนต์ให้ชัดเจนมากขึ้น
+small_font = pygame.font.SysFont(None, 65)
 tiny_font = pygame.font.SysFont(None, 35)
 
-# สถานะของเกม
+# Game state
 STATE = "menu" # ตัวแปร STATE คือ หน้า menu ของเกม
 
-# สี
+# ค่าสีต่าง ๆ
 WHITE = (255, 255, 255)
 GRAY = (200, 200, 200)
 BLACK = (0, 0, 0)
@@ -67,9 +67,9 @@ slow_duration = 10
 last_green_time = 0
 last_blue_time = 0
 time_counter = 0
-start_stopwatch = 0.0 # เริ่มจับเวลา: 0.0 หมายถึงยังไม่เริ่ม
-end_stopwatch = 0.0 # หยุดจับเวลา
-total_play_time = 0.0 # เวลาที่เล่นทั้งหมด (เมื่อเกมจบ)
+start_stopwatch = 0.0
+end_stopwatch = 0.0
+total_play_time = 0.0 # Total player survive time
 SCORE = 0 # ติดตามคะแนนของผู้เล่น
 
 # ------------------ ตัวแปรสำหรับโหมดสอน (Tutorial) ------------------
@@ -102,11 +102,11 @@ def reset_game_state():
     global game_circles, fall_speed, normal_speed, slow_mode, slow_start_time, last_green_time, last_blue_time, time_counter, SCORE
     global total_play_time, start_stopwatch, end_stopwatch
     game_circles = []
-    
+
     # รีเซตความเร็วให้เป็นค่าเริ่มต้น
     normal_speed = INITIAL_NORMAL_SPEED 
     fall_speed = normal_speed
-    
+
     slow_mode = False
     slow_start_time = 0
     last_green_time = 0
@@ -211,7 +211,7 @@ def draw_tutorial():
     global time_counter, T_SLOW_DURATION, T_NORMAL_SPEED
     current_time = time.time()
     new_state = "tutorial"
-    
+
     # Event handling
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -255,7 +255,7 @@ def draw_tutorial():
                         game_circles.clear()
                         T_TYPED_BLUE = True
                         break
-                    
+
     # Animate character (using center position)
     time_counter += 0.2
     breathe = math.sin(time_counter) * 3
@@ -276,7 +276,7 @@ def draw_tutorial():
     elif TUTORIAL_INDEX == 6 and len(game_circles) == 0 and not T_TYPED_GREEN:
         letter_g = chr(random.randint(65, 90))
         game_circles.append(create_circle(random.randint(300, WIDTH - 300), 0, GREEN, letter_g))
-        
+
         letter_w = chr(random.randint(65, 90))
         game_circles.append(create_circle(random.randint(200, WIDTH - 200), -100, WHITE, letter_w))
 
@@ -284,7 +284,7 @@ def draw_tutorial():
     elif TUTORIAL_INDEX == 8 and len(game_circles) == 0 and not T_TYPED_BLUE:
         letter_b = chr(random.randint(65, 90))
         game_circles.append(create_circle(random.randint(300, WIDTH - 300), 0, BLUE, letter_b))
-        
+
         letter_w = chr(random.randint(65, 90))
         game_circles.append(create_circle(random.randint(200, WIDTH - 200), -100, WHITE, letter_w))
 
@@ -313,7 +313,7 @@ def draw_tutorial():
 
     if TUTORIAL_INDEX == 8 and T_TYPED_BLUE:
         TUTORIAL_INDEX = 9
-        
+
     # --- Draw tutorial text ---
     # ข้อความหลัก (อยู่ด้านล่างตัวช่วย)
     tutorial_text = small_font.render(tutorial_texts[TUTORIAL_INDEX], True, WHITE)
@@ -330,13 +330,13 @@ def draw_tutorial():
 
     hint_rect = hint.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 50))
     screen.blit(hint, hint_rect)
-    
+
     return new_state # อยู่ในโหมดสอน
 
 def draw_page(label):
     # วาดภาพเมนูตั้งค่าที่มีสไลด์กำหนดความดังของเสียง
     global VOLUME, DRAGGING
-    
+
     mouse = pygame.mouse.get_pos()
     new_state = label.lower() # อยู่ในการตั้งค่าเว้นเสียแต่ไม่ถูกเปลี่ยนแปลง
 
@@ -372,7 +372,7 @@ def draw_page(label):
 
     # วาดภาพตัวบาร์เลื่อนเสียงเพลง
     pygame.draw.rect(screen, SLIDER_BAR_COLOR, (slider_x, slider_y, slider_width, slider_height))
-    
+
     # คำนวณและวาดภาพตัวลูกบิด
     knob_x = slider_x + int(slider_width * VOLUME)
     pygame.draw.circle(screen, WHITE, (knob_x, slider_y + slider_height // 2), knob_radius)
@@ -396,11 +396,11 @@ def draw_page(label):
     vol_text = small_font.render(f"Volume: {int(VOLUME * 100)}%", True, WHITE)
     vol_x = WIDTH // 2 - vol_text.get_width() // 2
     screen.blit(vol_text, (vol_x, 460))
-    
+
     # วาด 'Back' hint เมื่อผู้ใช้กดปุ่ม EscDraw
     back_hint = tiny_font.render("Press ESC to return to Menu", True, BLACK)
     screen.blit(back_hint, (50, 650))
-    
+
     return new_state # การอยู่ในหน้าการตั้งค่า
 
 def run_game():
@@ -410,7 +410,7 @@ def run_game():
     current_time = time.time()
     new_state = "game"
 
-    # *** ลอจิกจับเวลา: เริ่มจับเวลาเมื่อเข้าสู่เกมครั้งแรก ***
+    # ลอจิกจับเวลา: เริ่มจับเวลาเมื่อเข้าสู่เกมครั้งแรก
     if start_stopwatch == 0.0:
         start_stopwatch = current_time
 
@@ -439,28 +439,28 @@ def run_game():
                         break
                     game_circles.remove(circle)
                     break
-    
+
     # =========================================================================
     # ลอจิกปรับความยากตามคะแนน (เพิ่มความเร็วและความถี่ในการเกิดทุกๆ 100 คะแนน)
     # =========================================================================
     difficulty_multiplier = SCORE // 100
-    
+
     # 1. ปรับความเร็วในการตก: เพิ่มขึ้น 0.5 สำหรับทุกๆ 100 คะแนน
     # เช่น 0-99: 2.0, 100-199: 2.5, 200-299: 3.0, 300-399: 3.5, ...
     speed_increase_per_level = 0.5
     new_normal_speed = INITIAL_NORMAL_SPEED + (difficulty_multiplier * speed_increase_per_level)
-    
+
     # อัปเดตความเร็วหลัก (normal_speed) แต่ถ้าอยู่ในโหมดช้า (slow_mode) ให้คงความเร็วช้าไว้
     if not slow_mode:
         normal_speed = new_normal_speed
         fall_speed = normal_speed
-        
+
     # 2. ปรับความน่าจะเป็นในการเกิดของวงกลม: เพิ่มโอกาส 0.0025 สำหรับทุกๆ 100 คะแนน
     # เช่น 0-99: 0.01, 100-199: 0.0125, 200-299: 0.015, ...
     spawn_increase_per_level = 0.0025
     base_spawn_chance = 0.01
     spawn_chance = base_spawn_chance + (difficulty_multiplier * spawn_increase_per_level) 
-    
+
     # โหมดของตกช้าลง
     if slow_mode and current_time - slow_start_time >= slow_duration:
         slow_mode = False
@@ -494,7 +494,7 @@ def run_game():
     score_text = small_font.render(f"Score: {SCORE}", True, WHITE)
     # แสดงระดับความยากปัจจุบัน
     difficulty_text = small_font.render(f"Level: {difficulty_multiplier + 1}", True, WHITE)
-    
+
     screen.blit(score_text, (WIDTH - score_text.get_width() - 700, 670))
     screen.blit(difficulty_text, (WIDTH - score_text.get_width() - 950, 670)) # แสดงระดับความยาก
 
@@ -502,7 +502,7 @@ def run_game():
     current_elapsed_time = current_time - start_stopwatch
     time_display = small_font.render(f"Time: {current_elapsed_time:.2f}s", True, WHITE)
     screen.blit(time_display, (WIDTH - time_display.get_width() - 250, 670))
-    
+
     # ใช้ตำแหน่งตัวละครของเกมหลัก
     screen.blit(character_img, (char_rect.x, char_rect.y + breathe))
 
@@ -517,7 +517,7 @@ def run_game():
             end_stopwatch = time.time()
             total_play_time = end_stopwatch - start_stopwatch # บันทึกเวลาสุดท้าย
             break # ออกจากลูปวงกลมเมื่อเกมโอเวอร์จากของตก
-        
+
     return new_state
 
 def draw_game_over():
@@ -527,10 +527,10 @@ def draw_game_over():
 
     title = font.render("GAME OVER", True, RED)
     score_text = small_font.render(f"FINAL SCORE: {SCORE}", True, GREEN)
-    
+
     # ใช้ค่า total_play_time ที่คำนวณไว้แล้ว
     total_play_time_text = small_font.render(f"Total time played: {total_play_time:.2f}s", True, GREEN) 
-    
+
     restart_text = tiny_font.render("Press ENTER to RESTART", True, GRAY)
     menu_text = tiny_font.render("Press ESC to RETURN TO MENU", True, GRAY)
 
