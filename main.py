@@ -5,7 +5,7 @@ import time
 import math
 
 pygame.init() # Usig Pygame modules
-pygame.mixer.init() # Using Pygane mixer module
+pygame.mixer.init() # Using Pygame mixer module
 
 # Global variables
 WIDTH = 1280
